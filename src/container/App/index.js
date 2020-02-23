@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { BlogContext } from './BlogContext';
+import { BlogsProvider } from './BlogContext';
 
 import SignIn from '../SignIn';
 import BlogList from '../BlogList';
@@ -14,19 +14,62 @@ import CreateArticle from '../CreateArticle';
 
 import DATA from '../../ressources/blogs.json';
 
-const blogs = DATA;
-
 function App() {
+
+  const initialState = {
+    count: 3,
+    blogs: DATA,
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'addBlog': {
+        const newCount = state.count + 1;
+        const newBlog = {
+          id: newCount,
+          name: action.newBlogName,
+          articles: []
+        }
+        return {
+          count: newCount,
+          blogs: [...state.blogs, newBlog]
+        };
+      }
+      case 'editBlog': {
+        const blogId = state.blogs.findIndex(b => b.id === action.id);
+        const blog = Object.assign({}, state.blogs[blogId]);
+        blog.name = action.blogName;
+        const blogs = Object.assign([], state.blogs);
+        blogs.splice(blogId, 1, blog);
+        return {
+          count: state.count,
+          blogs
+        };
+      }
+      case 'deleteBlog': {
+        const blogId = state.blogs.findIndex(b => b.id === action.id);
+        const blogs = Object.assign([], state.blogs);
+        blogs.splice(blogId, 1);
+        return {
+          count: state.count,
+          blogs: blogs,
+        };
+      }
+      default:
+        return state;
+    }
+  };
+
   return (
-    <BlogContext.Provider value={blogs}>
+    <BlogsProvider initialState={initialState} reducer={reducer}>
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
+          <nav className="border-b border-gray-200 p-4 mb-6">
+            <ul className="flex">
+              <li className="p-2">
                 <Link to="/">Home</Link>
               </li>
-              <li>
+              <li className="p-2">
                 <Link to="/blogs">Blogs</Link>
               </li>
             </ul>
@@ -35,7 +78,7 @@ function App() {
             <Route exact path="/blogs">
               <BlogList />
             </Route>
-            <Route path="/blogs/:blogId">
+            <Route exact path="/blogs/:blogId">
               <BlogDetails />
             </Route>
             <Route path="/blogs/:blogId/create">
@@ -44,10 +87,13 @@ function App() {
             <Route path="/">
               <SignIn />
             </Route>
+            <Route path="*">
+              <SignIn />
+            </Route>
           </Switch>
         </div>
       </Router>
-    </BlogContext.Provider>
+    </BlogsProvider>
   );
 }
 

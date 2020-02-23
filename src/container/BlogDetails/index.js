@@ -1,36 +1,45 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { BlogContext } from '../App/BlogContext.js';
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouteMatch, Link } from 'react-router-dom';
+import { useStateValue } from '../App/BlogContext.js';
 
 
 function BlogDetails() {
 
-  const blogs = useContext(BlogContext)
+  const [{ blogs }] = useStateValue();
 
   const { blogId } = useParams();
+  const { url } = useRouteMatch();
   const [blog, setBlog] = useState({});
 
   useEffect(() => {
     const getArticleList = setTimeout(() => {
-      const blog = blogs.find(blog => {
-        console.log('blog', typeof blogId, typeof blog.id);
-        return blog.id.toString() === blogId
-      });
-      setBlog(blog);
+      const foundBlog = blogs.find(blog => blog.id.toString() === blogId);
+      if (foundBlog === undefined) {
+        console.log('oups');
+      }
+      setBlog(foundBlog);
     }, 1000);
 
     return () => clearTimeout(getArticleList);
   }, [setBlog, blogId, blogs])
 
-  console.log('blogId', blogId, blog);
+  console.log('url', url);
+
   if (Object.keys(blog).length === 0) {
     return (
       <p>blog pas trouvé</p>
     );
   }
+
+  if (blog.articles.length === 0) {
+    return (
+      <p>Aucun article mais commencé à écrire !</p>
+    )
+  }
   return (
     <>
       <h1>{blog.name}</h1>
+      <Link to={`/blogs/${blog.id}/create`}>Ajouter un article</Link>
       {blog.articles.length > 0 &&
         blog.articles.map(a => (
           <div key={a.id}>
