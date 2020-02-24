@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
 import { useStateValue } from '../App/BlogContext.js';
 
-import BlogCard from '../../components/BlogCard'
+import BlogCard from '../../components/BlogCard';
+import H1 from '../../components/H1';
+import H2 from '../../components/H2';
+import Input from '../../components/Input';
 
 function BlogList() {
-
+  // Get blog store values and actions
   const [{ blogs }, dispatch] = useStateValue();
 
-  const { url } = useRouteMatch();
+  // Hook to set the blog list to the component
   const [list, setList] = useState([]);
+
+  // Manage the state of the input value,
+  // can be done with a ref added to the input though
   const [newBlogName, setNewBlogName] = useState({})
 
   useEffect(() => {
@@ -20,7 +25,6 @@ function BlogList() {
     return () => clearTimeout(getBlogList);
 
   }, [blogs, setList])
-console.log('blogs', url);
 
   const onInputChange = (e) => {
     setNewBlogName(e.target.value)
@@ -46,7 +50,7 @@ console.log('blogs', url);
   return (
     <div className="container mx-auto">
       <section className="mb-6">
-        <h1 className="text-2xl font-semibold mb-4">Mes blogs</h1>
+        <H1>Mes blogs</H1>
         <div className="grid gap-2 grid-cols-3">
           {list.length > 0 &&
             list.map(blog => (
@@ -56,9 +60,9 @@ console.log('blogs', url);
         </div>
       </section>
       <section>
-        <h2 className="text-xl font-semibold mb-4">Ajouter un blog</h2>
+        <H2>Ajouter un blog</H2>
         <form>
-          <input className="p-4 border border-gray-200 rounded-md" type="text" onChange={onInputChange} placeholder="title" />
+          <Input type="text" onInputChange={onInputChange} placeholder="title" />
           <button type="submit" onClick={onClickSubmitBtn}>submit</button>
         </form>
       </section>
