@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouteMatch, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useStateValue } from '../App/BlogContext.js';
 
 
@@ -8,39 +8,34 @@ function BlogDetails() {
   const [{ blogs }] = useStateValue();
 
   const { blogId } = useParams();
-  const { url } = useRouteMatch();
-  const [blog, setBlog] = useState({});
+  const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    const getArticleList = setTimeout(() => {
+    setTimeout(() => {
       const foundBlog = blogs.find(blog => blog.id.toString() === blogId);
       if (foundBlog === undefined) {
         console.log('oups');
       }
       setBlog(foundBlog);
     }, 1000);
-
-    return () => clearTimeout(getArticleList);
   }, [setBlog, blogId, blogs])
 
-  console.log('url', url);
-
-  if (Object.keys(blog).length === 0) {
+  if (blog === null) {
     return (
       <p>blog pas trouvé</p>
     );
   }
 
-  if (blog.articles.length === 0) {
+  if (Object.keys(blog).length && blog.articles.length === 0) {
     return (
-      <p>Aucun article mais commencé à écrire !</p>
+      <p>Aucun article mais commencez à écrire !</p>
     )
   }
   return (
     <>
       <h1>{blog.name}</h1>
       <Link to={`/blogs/${blog.id}/create`}>Ajouter un article</Link>
-      {blog.articles.length > 0 &&
+      {(blog !== null && blog.articles.length > 0) &&
         blog.articles.map(a => (
           <div key={a.id}>
             <h2>{a.title}</h2>

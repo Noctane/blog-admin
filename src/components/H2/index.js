@@ -20,7 +20,7 @@ H2.propTypes = {
 
 H2.defaultProps = {
   className: '',
-  style: {},
+  style: null,
 };
 
 export default H2;

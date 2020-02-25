@@ -5,20 +5,33 @@ export const AuthContext = createContext({});
 
 export default function Auth({ children }) {
   const [isAuth, setIsAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const authLogin = credentials => login(credentials)
-    .then(setIsAuth(true))
-    .catch(error => {
-      console.log('error', error);
-      setIsAuth(false);
-    });
+  const authLogin = credentials => {
+    setIsLoading(true)
+    login(credentials)
+      .then(setTimeout(() => {
+        setIsAuth(true);
+        setIsLoading(false);
+      }, 2000))
+      .catch(error => {
+        setTimeout(() => {
+          setIsAuth(false);
+          setIsLoading(false);
+        }, 2000)
+      });
+  }
 
   const authLogout = () => {
-    setIsAuth(false);
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsAuth(false)
+      setIsLoading(false)
+    }, 2000)
   }
 
   return (
-    <AuthContext.Provider value={{ isAuth, authLogin, authLogout }}>
+    <AuthContext.Provider value={{ isAuth, authLogin, authLogout, isLoading }}>
       {children}
     </AuthContext.Provider>
   )
