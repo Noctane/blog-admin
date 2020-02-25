@@ -1,45 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
-import { BlogsProvider } from './BlogContext';
-
+import Auth from './AuthContext';
+import PrivateRoute from './Acl/PrivateRoute';
 import SignIn from '../SignIn';
 import BlogList from '../BlogList';
 import BlogDetails from '../BlogDetails';
 import CreateArticle from '../CreateArticle';
-
-import { initialState, reducer } from '../../ressources/blogStore';
+import Navigation from '../../components/Navigation';
 
 function App() {
 
   return (
-    <BlogsProvider initialState={initialState} reducer={reducer}>
+    <Auth>
       <Router>
         <div>
-          <nav className="border-b border-gray-200 p-4 mb-6">
-            <ul className="flex">
-              <li className="p-2">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="p-2">
-                <Link to="/blogs">Blogs</Link>
-              </li>
-            </ul>
-          </nav>
+          <Navigation />
           <Switch>
-            <Route exact path="/blogs">
-              <BlogList />
-            </Route>
-            <Route exact path="/blogs/:blogId">
-              <BlogDetails />
-            </Route>
-            <Route path="/blogs/:blogId/create">
-              <CreateArticle />
-            </Route>
+            <PrivateRoute exact path="/blogs" component={BlogList} />
+            <PrivateRoute exact path="/blogs/:blogId" component={BlogDetails}/>
+            <PrivateRoute path="/blogs/:blogId/create" component={CreateArticle} />
             <Route path="/">
               <SignIn />
             </Route>
@@ -49,7 +33,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </BlogsProvider>
+    </Auth>
   );
 }
 

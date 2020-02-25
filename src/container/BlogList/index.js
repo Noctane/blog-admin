@@ -10,7 +10,7 @@ function BlogList() {
   // Get blog store values and actions
   const [{ blogs }, dispatch] = useStateValue();
 
-  // Hook to set the blog list to the component
+  // Hook to set the blog list state to the component
   const [list, setList] = useState([]);
 
   // Manage the state of the input value,
@@ -44,8 +44,6 @@ function BlogList() {
       id,
     })
   }
-
-  console.log('newBlog', newBlogName);
 
   return (
     <div className="container mx-auto">

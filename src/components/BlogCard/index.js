@@ -1,5 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
+// Components
+import H2 from '../H2';
+
 
 function BlogCard({ blog, handleAction }) {
 
@@ -8,7 +12,7 @@ function BlogCard({ blog, handleAction }) {
   return (
     <div className="p-4 border border-gray-200 rounded-md">
       <div className="mb-4">
-        <h2 className="text-lg font-medium">{blog.name}</h2>
+        <H2>{blog.name}</H2>
         <em className="text-gray-600">{`${blog.articles.length} articles`}</em>
       </div>
       <div className="flex justify-between">
@@ -17,6 +21,11 @@ function BlogCard({ blog, handleAction }) {
       </div>
     </div>
   );
+}
+
+BlogCard.propTypes = {
+  blog: PropTypes.object.isRequired,
+  handleAction: PropTypes.func.isRequired,
 }
 
 export default BlogCard;
