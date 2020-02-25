@@ -13,7 +13,7 @@ import CreateArticle from '../CreateArticle';
 import Navigation from '../../components/Navigation';
 
 function App() {
-
+  console.log('localStorage.getItem', localStorage);
   return (
     <Auth>
       <Router>
