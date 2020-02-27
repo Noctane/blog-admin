@@ -33,9 +33,9 @@ function SignIn() {
           <Input ref={loginRef} name="login" type="text" />
           <label className="block mt-2" htmlFor="password">Mot de passe</label>
           <Input ref={passwordRef} name="password" type="password" />
+          <button type="submit" className="mt-4 bg-blue-500 py-2 px-4 rounded-md text-white" onClick={logmeIn}>Connexion</button>
+          {isLoading && <p>Loading...</p>}
         </form>
-        <button type="submit" className="mt-4 bg-blue-500 py-2 px-4 rounded-md text-white" onClick={logmeIn}>Connexion</button>
-        {isLoading && <p>Loading...</p>}
       </div>
     </div>
   )
