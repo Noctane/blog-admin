@@ -18,12 +18,9 @@ function BlogList() {
   const [newBlogName, setNewBlogName] = useState({})
 
   useEffect(() => {
-    const getBlogList = setTimeout(() => {
+    setTimeout(() => {
       setList(blogs)
     }, 1000);
-
-    return () => clearTimeout(getBlogList);
-
   }, [blogs, setList])
 
   const onInputChange = (e) => {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useStateValue } from '../App/BlogContext.js';
+import H1 from '../../components/H1';
+import H2 from '../../components/H2';
 
 
 function BlogDetails() {
@@ -22,7 +24,9 @@ function BlogDetails() {
 
   if (blog === null) {
     return (
-      <p>blog pas trouvé</p>
+      <div className="container mx-auto">
+        <p>blog pas trouvé</p>
+      </div>
     );
   }
 
@@ -32,18 +36,22 @@ function BlogDetails() {
     )
   }
   return (
-    <>
-      <h1>{blog.name}</h1>
-      <Link to={`/blogs/${blog.id}/create`}>Ajouter un article</Link>
+    <div className="container mx-auto">
+      <div className="flex justify-between border-b-2 border-gray-200 items-center mb-4">
+        <H1>{blog.name}</H1>
+        <Link className="bg-blue-500 py-2 px-4 rounded-md text-white" to={`/blogs/${blog.id}/create`}>
+          Ajouter un article
+        </Link>
+      </div>
       {(blog !== null && blog.articles.length > 0) &&
         blog.articles.map(a => (
-          <div key={a.id}>
-            <h2>{a.title}</h2>
+          <div key={a.id} className="mb-4">
+            <H2>{a.title}</H2>
             <p>{a.content}</p>
           </div>
         ))
       }
-    </>
+    </div>
   )
 }
 

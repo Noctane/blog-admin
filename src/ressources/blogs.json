@@ -2,6 +2,7 @@
   {
     "id": 1,
     "name": "Mon premier Blog",
+    "articleCount": 3,
     "articles": [
       {
         "id": 1,
@@ -23,6 +24,7 @@
   {
     "id": 2,
     "name": "Blog sur les films",
+    "articleCount": 3,
     "articles": [
       {
         "id": 1,
@@ -44,6 +46,7 @@
   {
     "id": 3,
     "name": "Blog sur la musique",
+    "articleCount": 3,
     "articles": [
       {
         "id": 1,

@@ -43,10 +43,32 @@ export const BlogsProvider = ({ children }) => {
           blogs: blogs,
         };
       }
+      case 'addArticle': {
+        console.log('action', action);
+        const blogId = state.blogs.findIndex(b => b.id === action.bId);
+        const blog = Object.assign({}, state.blogs[blogId]);
+        console.log('blog', blog);
+        const newArticle = {
+          ...action.newArticle,
+          id: blog.articleCount + 1
+
+        }
+        blog.articles = [...blog.articles, newArticle];
+        blog.articleCount = blog.articleCount + 1
+        console.log('blog', blog);
+        const blogs = Object.assign([], state.blogs);
+        blogs.splice(blogId, 1, blog);
+
+        return {
+          count: state.count,
+          blogs,
+        };
+      }
       default:
         return state;
     }
   };
+
   return (
     <BlogContext.Provider value={useReducer(reducer, initialState)}>
       {children}
