@@ -44,10 +44,8 @@ export const BlogsProvider = ({ children }) => {
         };
       }
       case 'addArticle': {
-        console.log('action', action);
         const blogId = state.blogs.findIndex(b => b.id === action.bId);
         const blog = Object.assign({}, state.blogs[blogId]);
-        console.log('blog', blog);
         const newArticle = {
           ...action.newArticle,
           id: blog.articleCount + 1
