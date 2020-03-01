@@ -5,6 +5,7 @@ import BlogCard from '../../components/BlogCard';
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 function BlogList() {
   // Get blog store values and actions
@@ -56,10 +57,14 @@ function BlogList() {
       </section>
       <section>
         <H2>Ajouter un blog</H2>
-        <form>
-          <Input type="text" onInputChange={onInputChange} placeholder="title" />
-          <button type="submit" onClick={onClickSubmitBtn}>submit</button>
-        </form>
+        <div className="p-4 text-center bg-white border border-gray-200 rounded-md">
+          <form>
+            <div className="flex">
+              <Input type="text" onInputChange={onInputChange} placeholder="Titre du blog" className="mr-2" />
+              <Button type="submit" bgColor="blue" onButtonClick={onClickSubmitBtn}>submit</Button>
+            </div>
+          </form>
+        </div>
       </section>
     </div>
   )

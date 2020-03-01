@@ -25,7 +25,7 @@ function BlogDetails() {
   if (blog === null) {
     return (
       <div className="container mx-auto">
-        <p>blog pas trouvé</p>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -43,14 +43,19 @@ function BlogDetails() {
           Ajouter un article
         </Link>
       </div>
-      {(blog !== null && blog.articles.length > 0) &&
-        blog.articles.map(a => (
-          <div key={a.id} className="mb-4">
-            <H2>{a.title}</H2>
-            <p>{a.content}</p>
-          </div>
-        ))
-      }
+      <div className="p-8 mx-auto w-2/3 bg-white border border-gray-200 rounded-md">
+        {(blog !== null && blog.articles.length > 0) &&
+          blog.articles.map(a => (
+            <div key={a.id} className="mb-4">
+              <H2>{a.title}</H2>
+              <p>{a.content}</p>
+              <Link className="text-blue-600" to={`/blogs/${blog.id}/edit/${a.id}`}>
+                Modifier l'article
+              </Link>
+            </div>
+          ))
+        }
+      </div>
     </div>
   )
 }

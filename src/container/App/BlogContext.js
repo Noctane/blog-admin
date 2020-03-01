@@ -49,17 +49,30 @@ export const BlogsProvider = ({ children }) => {
         const newArticle = {
           ...action.newArticle,
           id: blog.articleCount + 1
-
         }
         blog.articles = [...blog.articles, newArticle];
         blog.articleCount = blog.articleCount + 1
-        console.log('blog', blog);
         const blogs = Object.assign([], state.blogs);
         blogs.splice(blogId, 1, blog);
 
         return {
           count: state.count,
           blogs,
+        };
+      }
+      case 'editArticle': {
+        const blogId = state.blogs.findIndex(b => b.id === action.bId);
+        const blog = Object.assign({}, state.blogs[blogId]);
+        const articleId = blog.articles.findIndex(a => a.id === action.aId);
+        const article = Object.assign({}, blog.articles[articleId]);
+        article.title =  action.title;
+        article.content = action.content;
+        blog.articles.splice(articleId, 1, article);
+        const blogs = Object.assign([], state.blogs);
+        blogs.splice(blogId, 1, blog);
+        return {
+          count: state.count,
+          blogs
         };
       }
       default:

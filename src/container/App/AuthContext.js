@@ -10,7 +10,7 @@ export default function Auth({ children }) {
 
   useEffect(() => {
     // DO NO STORE SESSION DATA IN LOCALSTORAGE, THIS IS JUST A TEST!!
-    // Simulate session with local storage, it was annoying to login at every hot reload
+    // Simulate session with local storage, it was annoying to log in at every hot reload
     const session = localStorage.getItem('token');
     if (Date.now() < parseInt(session, 10) + 300000) {
       setIsAuth(true);

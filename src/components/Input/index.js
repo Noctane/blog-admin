@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = React.forwardRef(({ className, type, onInputChange, placeholder, style, name }, ref) => (
+const Input = ({ className, type, onInputChange, placeholder, style, name, value }) => (
   <input
     className={`${className} px-4 py-2 border border-gray-200 rounded-md`}
     style={style}
     type={type}
-    ref={ref}
     onChange={onInputChange}
     placeholder={placeholder}
     name={name}
+    value={value}
   />
-));
+);
 
 Input.propTypes = {
   className: PropTypes.string,

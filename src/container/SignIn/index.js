@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../App/AuthContext';
 import { useHistory } from 'react-router-dom';
 
@@ -9,8 +9,10 @@ import Button from '../../components/Button';
 function SignIn() {
   const history = useHistory();
   const { isAuth, authLogin, isLoading } = useContext(AuthContext);
-  const loginRef = useRef();
-  const passwordRef = useRef();
+  const [credentials, setCredentials] = useState({
+    login: '',
+    password: '',
+  });
 
   useEffect(() => {
     if(isAuth) {
@@ -18,23 +20,32 @@ function SignIn() {
     }
   }, [history, isAuth]);
 
-  const logmeIn = () => {
+  const onInputChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const logmeIn = (e) => {
+    e.preventDefault();
     const creds = {
-      login: loginRef.current.value,
-      password: passwordRef.current.value,
+      login: credentials.login,
+      password: credentials.password,
     }
     authLogin(creds);
   }
+
   return (
     <div className="container mx-auto">
-      <div className="p-8 mx-auto w-2/3 text-center border border-gray-200 rounded-md">
+      <div className="p-8 mx-auto w-2/3 text-center bg-white border border-gray-200 rounded-md">
         <H1>Connexion</H1>
         <form onSubmit={logmeIn}>
           <label className="block mt-2" htmlFor="login">Nom d'utilisateur</label>
-          <Input ref={loginRef} name="login" type="text" />
+          <Input value={credentials.login || ''} name="login" type="text" onInputChange={onInputChange} />
           <label className="block mt-2" htmlFor="password">Mot de passe</label>
-          <Input ref={passwordRef} name="password" type="password" />
-          <Button type="submit" className="mt-4 bg-blue-500 py-2 px-4 rounded-md text-white mx-auto" onClick={logmeIn}>Connexion</Button>
+          <Input value={credentials.password || ''} name="password" type="password" onInputChange={onInputChange} />
+          <Button type="submit" className="mt-4 mx-auto" onClick={logmeIn}>Connexion</Button>
           {isLoading && <p>Loading...</p>}
         </form>
       </div>

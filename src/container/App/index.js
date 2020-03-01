@@ -22,7 +22,8 @@ function App() {
           <Switch>
             <PrivateRoute exact path="/blogs" component={BlogList} />
             <PrivateRoute exact path="/blogs/:blogId" component={BlogDetails}/>
-            <PrivateRoute path="/blogs/:blogId/create" component={CreateArticle} />
+            <PrivateRoute exact path="/blogs/:blogId/create" component={CreateArticle} />
+            <PrivateRoute exact path="/blogs/:blogId/edit/:articleId" component={CreateArticle} />
             <Route path="/">
               <SignIn />
             </Route>
