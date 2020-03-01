@@ -41,7 +41,6 @@ function BlogDetails() {
     }, 1000)
   }
 
-
   const onToggleEdit = () => {
     setEditMode(editMode => !editMode)
   }
@@ -49,6 +48,8 @@ function BlogDetails() {
   const onInputChange = (e) => {
     setNewBlogName(e.target.value);
   }
+
+  console.log('blog', blog);
 
   if (blog === null) {
     return (
@@ -61,8 +62,11 @@ function BlogDetails() {
   if (Object.keys(blog).length && blog.articles.length === 0) {
     return (
       <div className="container mx-auto">
-        <div className="p-8 mx-auto w-2/3 bg-white border border-gray-200 rounded-md">
-          <p>Aucun article mais commencez à écrire !</p>
+        <div className="p-8 text-center mx-auto w-2/3 bg-white border border-gray-200 rounded-md">
+          <p className="mb-4">Aucun article</p>
+          <Link className="bg-blue-500 py-2 px-4 rounded-md text-white" to={`/blogs/${blog.id}/create`}>
+            Ajouter un article
+          </Link>
         </div>
       </div>
     )

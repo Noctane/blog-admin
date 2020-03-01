@@ -16,6 +16,7 @@ export const BlogsProvider = ({ children }) => {
         const newBlog = {
           id: newCount,
           name: action.newBlogName,
+          articleCount: 0,
           articles: []
         }
         return {

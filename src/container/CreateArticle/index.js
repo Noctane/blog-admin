@@ -24,7 +24,7 @@ function CreateArticle() {
   });
 
   useEffect(() => {
-    if (match.path.includes('edit')) {
+    if (match && match.path.includes('edit')) {
       const foundBlog = blogs.find(blog => blog.id.toString() === blogId);
       const foundArticle = foundBlog.articles.find(a => a.id.toString() === articleId);
       setEditableBlog(foundArticle);
