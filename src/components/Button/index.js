@@ -6,12 +6,12 @@ const colors = ['gray', 'blue', 'teal', 'green', 'yellow', 'orange', 'red', 'pur
 
 function Button(props) {
 
-  const { busy, to, className, href, onButtonClick, style, type, label, children, bgColor } = props;
+  const { busy, disabled, to, className, href, onButtonClick, style, type, label, children, bgColor } = props;
 
   const history = useHistory();
 
   let btnContent = label || children;
-  let finalClassNames = `block bg-${busy ? 'gray' :  bgColor}-500 py-2 px-4 rounded-md text-white ${className}`;
+  let finalClassNames = `block bg-${busy || disabled ? 'gray' :  bgColor}-500 py-2 px-4 rounded-md text-white ${className}`;
 
   const onClick = (event) => {
     if(to) {
@@ -49,6 +49,7 @@ function Button(props) {
 Button.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
+  disabled: PropTypes.bool,
   type: PropTypes.string,
   label: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -69,6 +70,7 @@ Button.propTypes = {
 Button.defaultProps = {
   className: '',
   style: null,
+  disabled: false,
   type: '',
   label: '',
   bgColor: 'blue',

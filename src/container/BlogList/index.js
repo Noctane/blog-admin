@@ -14,9 +14,8 @@ function BlogList() {
   // Hook to set the blog list state to the component
   const [list, setList] = useState([]);
 
-  // Manage the state of the input value,
-  // can be done with a ref added to the input though
-  const [newBlogName, setNewBlogName] = useState({})
+  // Manage the state of the input value
+  const [newBlogName, setNewBlogName] = useState('')
 
   useEffect(() => {
     setTimeout(() => {
@@ -60,7 +59,7 @@ function BlogList() {
         <div className="p-4 text-center bg-white border border-gray-200 rounded-md">
           <form>
             <div className="flex">
-              <Input type="text" onInputChange={onInputChange} placeholder="Titre du blog" className="mr-2" />
+              <Input type="text" onInputChange={onInputChange} value={newBlogName || ''} placeholder="Titre du blog" className="mr-2" />
               <Button type="submit" bgColor="blue" onButtonClick={onClickSubmitBtn}>submit</Button>
             </div>
           </form>
