@@ -39,7 +39,6 @@ function BlogDetails() {
   }
 
   const onClickDelete = (articleId) => {
-    console.log('articleId', articleId);
     dispatch({
       type: 'deleteArticle',
       aId: articleId,

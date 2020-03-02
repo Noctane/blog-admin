@@ -10,7 +10,6 @@ import Button from '../../components/Button';
 function BlogList() {
   // Get blog store values and actions
   const [{ blogs }, dispatch] = useStateValue();
-  console.log('blogs', blogs);
   // Hook to set the blog list state to the component
   const [list, setList] = useState([]);
 
@@ -36,7 +35,6 @@ function BlogList() {
   }
 
   const onClickDelete = (id) => {
-    console.log('delete blog', id);
     dispatch({
       type: 'deleteBlog',
       id,

@@ -40,7 +40,6 @@ export const BlogsProvider = ({ children }) => {
         const blogIdx = state.blogs.findIndex(b => b.id === action.id);
         const blogs = Object.assign([], state.blogs);
         blogs.splice(blogIdx, 1);
-        console.log('blogIdx', blogIdx);
         return {
           count: state.count,
           blogs: blogs,
@@ -81,8 +80,7 @@ export const BlogsProvider = ({ children }) => {
       case 'deleteArticle': {
         const blogIdx = state.blogs.findIndex(b => b.id === action.bId);
         const blog = Object.assign({}, state.blogs[blogIdx]);
-        const articleIdx = state.blogs[blogIdx].articles.findIndex(a => a.id === action.aId);
-        console.log('articleIdx', articleIdx);
+        const articleIdx = blog.articles.findIndex(a => a.id === action.aId);
         blog.articles.splice(articleIdx, 1);
 
         const blogs = Object.assign([], state.blogs);
