@@ -22,10 +22,10 @@ Article.propTypes = {
   article: PropTypes.shape({
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
   blog: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
   handleAction: PropTypes.func.isRequired,
 }
