@@ -7,6 +7,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 function SignIn() {
+
   const history = useHistory();
   const { isAuth, authLogin, isLoading } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
@@ -15,6 +16,7 @@ function SignIn() {
   });
 
   useEffect(() => {
+    // look for an auth user
     if(isAuth) {
       history.push('/blogs')
     }

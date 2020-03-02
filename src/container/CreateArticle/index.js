@@ -48,6 +48,7 @@ function CreateArticle() {
   const onClickSubmitBtn = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    // Check if we need to edit or add a new article
     if (match && match.path.includes('edit')) {
       dispatch({
         type: 'editArticle',
@@ -65,6 +66,7 @@ function CreateArticle() {
     }
     setTimeout(() => {
       setIsLoading(false);
+      // Redirect to blog when tasks have ended
       history.push(`/blogs/${blogId}`)
     }, 1000)
   }

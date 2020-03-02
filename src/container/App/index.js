@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Auth from './AuthContext';
+// Components
 import PrivateRoute from './Acl/PrivateRoute';
 import SignIn from '../SignIn';
 import BlogList from '../BlogList';
@@ -13,25 +14,23 @@ import CreateArticle from '../CreateArticle';
 import Navigation from '../../components/Navigation';
 
 function App() {
-  console.log('localStorage.getItem', localStorage);
+
   return (
     <Auth>
       <Router>
-        <div>
-          <Navigation />
-          <Switch>
-            <PrivateRoute exact path="/blogs" component={BlogList} />
-            <PrivateRoute exact path="/blogs/:blogId" component={BlogDetails}/>
-            <PrivateRoute exact path="/blogs/:blogId/create" component={CreateArticle} />
-            <PrivateRoute exact path="/blogs/:blogId/edit/:articleId" component={CreateArticle} />
-            <Route path="/">
-              <SignIn />
-            </Route>
-            <Route path="*">
-              <SignIn />
-            </Route>
-          </Switch>
-        </div>
+        <Navigation />
+        <Switch>
+          <PrivateRoute exact path="/blogs" component={BlogList} />
+          <PrivateRoute exact path="/blogs/:blogId" component={BlogDetails}/>
+          <PrivateRoute exact path="/blogs/:blogId/create" component={CreateArticle} />
+          <PrivateRoute exact path="/blogs/:blogId/edit/:articleId" component={CreateArticle} />
+          <Route exact path="/">
+            <SignIn />
+          </Route>
+          <Route path="*">
+            <SignIn />
+          </Route>
+        </Switch>
       </Router>
     </Auth>
   );

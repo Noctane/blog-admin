@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useStateValue } from '../App/BlogContext.js';
 // Components
 import H1 from '../../components/H1';
-import H2 from '../../components/H2';
+import Article from '../../components/Article';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
@@ -21,9 +21,6 @@ function BlogDetails() {
   useEffect(() => {
     setTimeout(() => {
       const foundBlog = blogs.find(blog => blog.id.toString() === blogId);
-      if (foundBlog === undefined) {
-        console.log('oups');
-      }
       setBlog(foundBlog);
     }, 1000);
   }, [setBlog, blogId, blogs])
@@ -41,6 +38,15 @@ function BlogDetails() {
     }, 1000)
   }
 
+  const onClickDelete = (articleId) => {
+    console.log('articleId', articleId);
+    dispatch({
+      type: 'deleteArticle',
+      aId: articleId,
+      bId: parseInt(blogId, 10),
+    });
+  }
+
   const onToggleEdit = () => {
     setEditMode(editMode => !editMode)
   }
@@ -48,8 +54,6 @@ function BlogDetails() {
   const onInputChange = (e) => {
     setNewBlogName(e.target.value);
   }
-
-  console.log('blog', blog);
 
   if (blog === null) {
     return (
@@ -102,13 +106,7 @@ function BlogDetails() {
       <div className="p-8 mx-auto w-2/3 bg-white border border-gray-200 rounded-md">
         {(blog !== null && blog.articles.length > 0) &&
           blog.articles.map(a => (
-            <div key={a.id} className="mb-4">
-              <H2>{a.title}</H2>
-              <p>{a.content}</p>
-              <Link className="text-blue-600" to={`/blogs/${blog.id}/edit/${a.id}`}>
-                Modifier l'article
-              </Link>
-            </div>
+            <Article key={a.id} article={a} blog={blog} handleAction={onClickDelete} />
           ))
         }
       </div>

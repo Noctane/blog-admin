@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useCallback } from 'react';
 import DATA from '../../ressources/blogs.json';
 
 export const BlogContext = createContext();
@@ -9,7 +9,8 @@ export const BlogsProvider = ({ children }) => {
     blogs: DATA,
   };
 
-  const reducer = (state, action) => {
+  // Memoized reducer to prevent trigger action twice
+  const reducer = useCallback((state, action) => {
     switch (action.type) {
       case 'addBlog': {
         const newCount = state.count + 1;
@@ -25,28 +26,29 @@ export const BlogsProvider = ({ children }) => {
         };
       }
       case 'editBlog': {
-        const blogId = state.blogs.findIndex(b => b.id === action.id);
-        const blog = Object.assign({}, state.blogs[blogId]);
+        const blogIdx = state.blogs.findIndex(b => b.id === action.id);
+        const blog = Object.assign({}, state.blogs[blogIdx]);
         blog.name = action.blogName;
         const blogs = Object.assign([], state.blogs);
-        blogs.splice(blogId, 1, blog);
+        blogs.splice(blogIdx, 1, blog);
         return {
           count: state.count,
           blogs
         };
       }
       case 'deleteBlog': {
-        const blogId = state.blogs.findIndex(b => b.id === action.id);
+        const blogIdx = state.blogs.findIndex(b => b.id === action.id);
         const blogs = Object.assign([], state.blogs);
-        blogs.splice(blogId, 1);
+        blogs.splice(blogIdx, 1);
+        console.log('blogIdx', blogIdx);
         return {
           count: state.count,
           blogs: blogs,
         };
       }
       case 'addArticle': {
-        const blogId = state.blogs.findIndex(b => b.id === action.bId);
-        const blog = Object.assign({}, state.blogs[blogId]);
+        const blogIdx = state.blogs.findIndex(b => b.id === action.bId);
+        const blog = Object.assign({}, state.blogs[blogIdx]);
         const newArticle = {
           ...action.newArticle,
           id: blog.articleCount + 1
@@ -54,7 +56,7 @@ export const BlogsProvider = ({ children }) => {
         blog.articles = [...blog.articles, newArticle];
         blog.articleCount = blog.articleCount + 1
         const blogs = Object.assign([], state.blogs);
-        blogs.splice(blogId, 1, blog);
+        blogs.splice(blogIdx, 1, blog);
 
         return {
           count: state.count,
@@ -62,24 +64,38 @@ export const BlogsProvider = ({ children }) => {
         };
       }
       case 'editArticle': {
-        const blogId = state.blogs.findIndex(b => b.id === action.bId);
-        const blog = Object.assign({}, state.blogs[blogId]);
-        const articleId = blog.articles.findIndex(a => a.id === action.aId);
-        const article = Object.assign({}, blog.articles[articleId]);
+        const blogIdx = state.blogs.findIndex(b => b.id === action.bId);
+        const blog = Object.assign({}, state.blogs[blogIdx]);
+        const articleIdx = blog.articles.findIndex(a => a.id === action.aId);
+        const article = Object.assign({}, blog.articles[articleIdx]);
         article.title =  action.title;
         article.content = action.content;
-        blog.articles.splice(articleId, 1, article);
+        blog.articles.splice(articleIdx, 1, article);
         const blogs = Object.assign([], state.blogs);
-        blogs.splice(blogId, 1, blog);
+        blogs.splice(blogIdx, 1, blog);
         return {
           count: state.count,
           blogs
         };
       }
+      case 'deleteArticle': {
+        const blogIdx = state.blogs.findIndex(b => b.id === action.bId);
+        const blog = Object.assign({}, state.blogs[blogIdx]);
+        const articleIdx = state.blogs[blogIdx].articles.findIndex(a => a.id === action.aId);
+        console.log('articleIdx', articleIdx);
+        blog.articles.splice(articleIdx, 1);
+
+        const blogs = Object.assign([], state.blogs);
+        blogs.splice(blogIdx, 1, blog);
+        return {
+          count: state.count,
+          blogs,
+        };
+      }
       default:
         return state;
     }
-  };
+  }, []);
 
   return (
     <BlogContext.Provider value={useReducer(reducer, initialState)}>
